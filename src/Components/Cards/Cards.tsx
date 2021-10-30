@@ -92,7 +92,7 @@ export const Cards: FC = () => {
 
   return (
     <>
-      {Array.from({ length: 5 }, (_, rowID) => {
+      {Array.from({ length: length + 1 }, (_, rowID) => {
         return (
           <Row key={rowID}>
             {Array.from({ length }, (_, boxID) => {
@@ -107,15 +107,23 @@ export const Cards: FC = () => {
 
 const { box, row, card, frontCard, backCard } = StyleSheet.create({
   box: {
-    width: "20%",
-    height: "100%",
-    marginLeft: "4%",
+    margin: 10,
+    flex: 1,
   },
   row: {
-    marginTop: "5.5%",
-    width: "100%",
-    height: "15%",
+    flex: 1,
+    margin: 0,
   },
+  // box: {
+  //   width: "20%",
+  //   height: "100%",
+  //   marginLeft: "4%",
+  // },
+  // row: {
+  //   marginTop: "5.5%",
+  //   width: "100%",
+  //   height: "15%",
+  // },
   card: {
     height: "100%",
     width: "100%",

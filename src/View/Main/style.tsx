@@ -28,6 +28,7 @@ export const {
     flex: 22,
     borderWidth: 10,
     borderColor: Colors.DarkBackground,
+    padding: 5,
   },
   scoreBar: {
     flex: 5,
