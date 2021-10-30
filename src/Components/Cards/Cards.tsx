@@ -1,10 +1,86 @@
 import React from "react";
 import { FC } from "react";
-import { View, StyleSheet } from "react-native";
-import { borderRadius, boxShadow, Colors, constRow } from "../../const";
+import { View, StyleSheet, Animated, Pressable, Text } from "react-native";
+import {
+  borderRadius,
+  boxShadow,
+  Colors,
+  constCenter,
+  constRow,
+} from "../../const";
 
 const Box: FC = ({}) => {
-  return <View style={[box, boxShadow, borderRadius]} />;
+  const animatedValue = new Animated.Value(0);
+
+  let curentValue = 0;
+  animatedValue.addListener(({ value }) => (curentValue = value));
+
+  //#region style
+  const frontInterpolate = animatedValue.interpolate({
+    inputRange: [0, 180],
+    outputRange: ["0deg", "180deg"],
+  });
+
+  const backInterpolate = animatedValue.interpolate({
+    inputRange: [0, 180],
+    outputRange: ["180deg", "360deg"],
+  });
+
+  const frontAnimatedStyle = {
+    transform: [{ rotateY: frontInterpolate }],
+  };
+
+  const backAnimatedStyle = {
+    transform: [{ rotateY: backInterpolate }],
+  };
+  //#endregion
+
+  const flipCard = () => {
+    if (curentValue >= 90) {
+      Animated.spring(animatedValue, {
+        toValue: 0,
+        friction: 8,
+        tension: 10,
+        useNativeDriver: false,
+      } as Animated.SpringAnimationConfig).start();
+    } else {
+      Animated.spring(animatedValue, {
+        toValue: 180,
+        friction: 8,
+        tension: 10,
+        useNativeDriver: false,
+      } as Animated.SpringAnimationConfig).start();
+    }
+  };
+
+  return (
+    <Pressable style={[box]} onPress={() => flipCard()}>
+      <Animated.View
+        style={[
+          card,
+          frontCard,
+          frontAnimatedStyle,
+          boxShadow,
+          borderRadius,
+          constCenter,
+        ]}
+      >
+        <Text>Text_1</Text>
+      </Animated.View>
+      <Animated.View
+        style={[
+          backAnimatedStyle,
+          card,
+          backCard,
+          boxShadow,
+          borderRadius,
+          constCenter,
+        ]}
+      >
+        <Text>Text_2</Text>
+      </Animated.View>
+    </Pressable>
+  );
 };
 
 const Row: FC = ({ children }) => {
@@ -29,16 +105,27 @@ export const Cards: FC = () => {
   );
 };
 
-const { box, row } = StyleSheet.create({
+const { box, row, card, frontCard, backCard } = StyleSheet.create({
   box: {
     width: "20%",
     height: "100%",
     marginLeft: "4%",
-    backgroundColor: Colors.LightGay,
   },
   row: {
     marginTop: "5.5%",
     width: "100%",
     height: "15%",
+  },
+  card: {
+    height: "100%",
+    width: "100%",
+  },
+  frontCard: {
+    position: "absolute",
+    backgroundColor: Colors.DarkPastelGreen,
+  },
+  backCard: {
+    backfaceVisibility: "hidden",
+    backgroundColor: Colors.LightGay,
   },
 });
