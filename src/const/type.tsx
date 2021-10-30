@@ -16,4 +16,20 @@ export type ButtonBasicProp = {
   action: () => void;
 };
 
-export type Card = {};
+export type Card = {
+  id: string;
+  pictureId: string;
+  flipped: boolean;
+  paired: boolean;
+  setFlipped: () => void;
+  setPaired: () => void;
+  changeCardState: (cardId: string) => void;
+};
+
+export type CardStore = {
+  card: Card[];
+  clickerCounter: number;
+  flippedCardCounterCounter: number;
+  addAClick: () => void;
+  findAPair: (cardId: string, pictureId: string) => void;
+};
