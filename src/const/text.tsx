@@ -5,6 +5,7 @@ export const { titleText, textColor } = StyleSheet.create({
   titleText: {
     color: Colors.Text,
     fontSize: 25,
+    fontWeight: "bold",
   },
   textColor: {
     color: Colors.Text,
