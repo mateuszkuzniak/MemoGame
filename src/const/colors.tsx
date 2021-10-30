@@ -1,6 +1,4 @@
-import { StyleSheet } from "react-native";
-
-export const Color = {
+export const Colors = {
   Text: "#FCFCFA",
   LightGay: "#C8D3D5",
   CadetBlueCrayola: "#A4B8C4",

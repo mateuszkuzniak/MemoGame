@@ -1,13 +1,15 @@
 import { StyleSheet } from "react-native";
-import { Color } from ".";
+import { Colors } from ".";
 
-const textStyles = StyleSheet.create({
+export const { titleText, textColor } = StyleSheet.create({
   titleText: {
-    color: Color.Text,
+    color: Colors.Text,
     fontSize: 25,
+  },
+  textColor: {
+    color: Colors.Text,
+    fontWeight: "bold",
   },
 });
 
 export const TitleApp = "MobileMemo";
-
-export const { titleText } = textStyles;

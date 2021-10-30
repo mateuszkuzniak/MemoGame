@@ -1,31 +1,45 @@
 import { StyleSheet } from "react-native";
-import { Color } from "../..";
+import { Colors } from "../../const";
 
-const styles = StyleSheet.create({
+export const {
+  container,
+  phoneBar,
+  titleBar,
+  board,
+  bottomBar,
+  adsBar,
+  scoreBar,
+} = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 2,
     width: "100%",
-    backgroundColor: Color.CadetBlueCrayola,
+    backgroundColor: Colors.CadetBlueCrayola,
     flexDirection: "column",
-    color: Color.Text,
+    color: Colors.Text,
   },
   phoneBar: {
-    flex: 0.5,
+    flex: 1,
   },
   titleBar: {
-    flex: 1.5,
+    flex: 3,
     alignItems: "center",
     justifyContent: "center",
-    color: Color.Text,
+    color: Colors.Text,
   },
   board: {
-    flex: 11,
+    flex: 22,
     borderWidth: 10,
-    borderColor: Color.SteelTeal,
+    borderColor: Colors.SteelTeal,
   },
-  bottomBar: {
+  scoreBar: {
     flex: 5,
   },
+  bottomBar: {
+    backgroundColor: "blue",
+    flex: 3,
+  },
+  adsBar: {
+    backgroundColor: "red",
+    flex: 2,
+  },
 });
-
-export const { container, phoneBar, titleBar, board, bottomBar } = styles;
