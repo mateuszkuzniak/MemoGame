@@ -1,10 +1,10 @@
 import React from "react";
 import { FC } from "react";
 import { View, StyleSheet } from "react-native";
-import { Colors, constRow } from "../../const";
+import { borderRadius, boxShadow, Colors, constRow } from "../../const";
 
 const Box: FC = ({}) => {
-  return <View style={box} />;
+  return <View style={[box, boxShadow, borderRadius]} />;
 };
 
 const Row: FC = ({ children }) => {
@@ -35,8 +35,6 @@ const { box, row } = StyleSheet.create({
     height: "100%",
     marginLeft: "4%",
     backgroundColor: Colors.LightGay,
-    borderRadius: 7,
-    elevation: 12,
   },
   row: {
     marginTop: "5.5%",

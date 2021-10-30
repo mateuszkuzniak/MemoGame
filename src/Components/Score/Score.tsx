@@ -1,17 +1,23 @@
 import React, { FC } from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { constColumn, constCenter, textColor, ScoreObject } from "../../const";
+import {
+  constColumn,
+  constCenter,
+  textColor,
+  ScoreObject,
+  boxInRow,
+} from "../../const";
 
-type Prop = {
-  obj: ScoreObject[];
+type Props = {
+  scoreObject: ScoreObject[];
 };
 
-export const Score: FC<Prop> = ({ obj }) => {
+export const Score: FC<Props> = ({ scoreObject }) => {
   return (
     <>
-      {obj.map((item, index) => {
+      {scoreObject.map((item) => {
         return (
-          <View key={index} style={[constColumn, box]}>
+          <View key={item.id} style={[constColumn, box, boxInRow]}>
             <View style={[constCenter, score]}>
               <Text style={[textColor, points]}>{item.number}</Text>
             </View>
@@ -27,8 +33,6 @@ export const Score: FC<Prop> = ({ obj }) => {
 
 const { box, score, adnotation, points } = StyleSheet.create({
   box: {
-    marginLeft: "4%",
-    width: "28%",
     height: "100%",
   },
   score: {

@@ -1,7 +1,16 @@
 import React from "react";
 import { FC } from "react";
 import { View, Text } from "react-native";
-import { Cards, constRow, Score, ScoreObject, titleText } from "../..";
+import { ButtonBasic, Cards, Score } from "../../Components";
+import {
+  buttons,
+  Colors,
+  constCenter,
+  constRow,
+  scoreObject,
+  ScoreObject,
+  titleText,
+} from "../../const";
 import {
   container,
   phoneBar,
@@ -12,12 +21,6 @@ import {
   bottomBar,
 } from "./style";
 
-const obj1 = [
-  { number: 0, description: "Liczba kliknięć" },
-  { number: 30, description: "Losowanie" },
-  { number: 30, description: "Czas do końca" },
-] as ScoreObject[];
-
 type Props = {
   text: string;
 };
@@ -26,16 +29,20 @@ export const MainView: FC<Props> = ({ text }) => {
   return (
     <View style={container}>
       <View style={phoneBar} />
-      <View style={titleBar}>
+      <View style={[titleBar, constCenter]}>
         <Text style={titleText}>{text}</Text>
       </View>
       <View style={board}>
         <Cards />
       </View>
       <View style={[constRow, scoreBar]}>
-        <Score obj={obj1} />
+        <Score scoreObject={scoreObject} />
       </View>
-      <View style={[constRow, bottomBar]}></View>
+      <View style={[constRow, bottomBar]}>
+        {buttons.map((btn) => {
+          return <ButtonBasic {...btn} key={btn.id} />;
+        })}
+      </View>
       <View style={adsBar}></View>
     </View>
   );

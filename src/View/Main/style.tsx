@@ -13,7 +13,7 @@ export const {
   container: {
     flex: 2,
     width: "100%",
-    backgroundColor: Colors.CadetBlueCrayola,
+    backgroundColor: Colors.BrighterBackground,
     flexDirection: "column",
     color: Colors.Text,
   },
@@ -22,20 +22,17 @@ export const {
   },
   titleBar: {
     flex: 3,
-    alignItems: "center",
-    justifyContent: "center",
     color: Colors.Text,
   },
   board: {
     flex: 22,
     borderWidth: 10,
-    borderColor: Colors.SteelTeal,
+    borderColor: Colors.DarkBackground,
   },
   scoreBar: {
     flex: 5,
   },
   bottomBar: {
-    backgroundColor: "blue",
     flex: 3,
   },
   adsBar: {
