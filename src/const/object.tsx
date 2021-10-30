@@ -26,7 +26,6 @@ export const buttons = [
     action: () => {},
     ico: <Entypo name="stopwatch" size={24} color={Colors.Text} />,
   },
-
   {
     id: "btn_3",
     text: "Dodaj czas",

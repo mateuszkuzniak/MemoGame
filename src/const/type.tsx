@@ -15,3 +15,5 @@ export type ButtonBasicProp = {
   ico?: any;
   action: () => void;
 };
+
+export type Card = {};
