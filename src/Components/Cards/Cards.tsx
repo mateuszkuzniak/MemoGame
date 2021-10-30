@@ -1,18 +1,31 @@
 import React from "react";
 import { FC } from "react";
-import { View, StyleSheet, Animated, Pressable, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Animated,
+  Pressable,
+  Image,
+  ImageProps,
+} from "react-native";
 import {
   borderRadius,
   boxShadow,
   Colors,
   constCenter,
   constRow,
+  numberOfColumn,
 } from "../../const";
+import { imageArray } from "../../images/image";
 
-const Box: FC = ({}) => {
+type BoxProps = {
+  pathToFile: ImageProps | Readonly<ImageProps>;
+};
+
+const Box: FC<BoxProps> = ({ pathToFile }) => {
   const animatedValue = new Animated.Value(0);
-
   let curentValue = 0;
+
   animatedValue.addListener(({ value }) => (curentValue = value));
 
   //#region style
@@ -64,9 +77,7 @@ const Box: FC = ({}) => {
           borderRadius,
           constCenter,
         ]}
-      >
-        <Text>Text_1</Text>
-      </Animated.View>
+      />
       <Animated.View
         style={[
           backAnimatedStyle,
@@ -77,7 +88,7 @@ const Box: FC = ({}) => {
           constCenter,
         ]}
       >
-        <Text>Text_2</Text>
+        <Image style={[card, borderRadius]} source={pathToFile} />
       </Animated.View>
     </Pressable>
   );
@@ -88,15 +99,18 @@ const Row: FC = ({ children }) => {
 };
 
 export const Cards: FC = () => {
-  const length = 4;
-
   return (
     <>
-      {Array.from({ length: length + 1 }, (_, rowID) => {
+      {Array.from({ length: numberOfColumn + 1 }, (_, rowID) => {
         return (
           <Row key={rowID}>
-            {Array.from({ length }, (_, boxID) => {
-              return <Box key={boxID} />;
+            {Array.from({ length: numberOfColumn }, (_, boxID) => {
+              return (
+                <Box
+                  key={boxID}
+                  pathToFile={imageArray[numberOfColumn * rowID + boxID].path}
+                />
+              );
             })}
           </Row>
         );
@@ -130,10 +144,10 @@ const { box, row, card, frontCard, backCard } = StyleSheet.create({
   },
   frontCard: {
     position: "absolute",
-    backgroundColor: Colors.DarkPastelGreen,
+    backgroundColor: Colors.LightGay,
   },
   backCard: {
     backfaceVisibility: "hidden",
-    backgroundColor: Colors.LightGay,
+    backgroundColor: Colors.DarkPastelGreen,
   },
 });
