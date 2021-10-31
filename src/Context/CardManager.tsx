@@ -7,9 +7,7 @@ export const CardManager = createContext({} as CardStore);
 export const CardManagerProvider: FC = ({ children }) => {
   const [card, setCard] = useState(CardStoreConstructor());
 
-  const setFlipped = (boxId: string, pictureId: string) => {
-    console.log("Flipped");
-    const index = card.findIndex((card) => card.boxId === boxId);
+  const setFlipped = (index: number) => {
     setCard((card) => [
       ...card.slice(0, index),
       { ...card[index], flipped: !card[index].flipped },

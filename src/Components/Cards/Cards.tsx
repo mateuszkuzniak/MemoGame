@@ -67,7 +67,7 @@ const Box: FC<BoxProps> = ({ index }) => {
   }
 
   return (
-    <Pressable style={[box]} onPress={() => setFlipped(boxId, pictureId)}>
+    <Pressable style={[box]} onPress={() => setFlipped(index)}>
       <Animated.View
         style={[
           cardBox,
