@@ -1,4 +1,4 @@
-import { ImageProps } from "react-native";
+import { Animated, ImageProps } from "react-native";
 
 export const TitleApp = "MobileMemo";
 export const numberOfColumn = 4;
@@ -17,7 +17,6 @@ export type ButtonBasicProp = {
 };
 
 export type Card = {
-  boxId: string;
   pictureId: string;
   pathToFile: ImageProps | Readonly<ImageProps>;
   flipped: boolean;

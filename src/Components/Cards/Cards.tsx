@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { createRef, useContext, useEffect, useRef } from "react";
 import { FC } from "react";
 import {
   View,
@@ -23,10 +23,11 @@ type BoxProps = {
 };
 const Box: FC<BoxProps> = ({ index }) => {
   const { card, setFlipped } = useContext(CardManager);
-  const { pathToFile, boxId, pictureId, flipped } = card[index];
+  const { pathToFile, flipped } = card[index];
   let curentValue = !flipped ? 0 : 180;
 
   const animatedValue = new Animated.Value(flipped ? 180 : 0);
+  const animatedValueRef = createRef<Animated.Value>();
 
   animatedValue.addListener(({ value }) => (curentValue = value));
 
@@ -50,24 +51,26 @@ const Box: FC<BoxProps> = ({ index }) => {
   };
   //#endregion
 
-  if (curentValue <= 90 && flipped) {
-    Animated.spring(animatedValue, {
-      toValue: 180,
-      friction: 8,
-      tension: 10,
-      useNativeDriver: false,
-    } as Animated.SpringAnimationConfig);
-  } else if (!flipped) {
-    Animated.spring(animatedValue, {
-      toValue: 0,
-      friction: 8,
-      tension: 10,
-      useNativeDriver: false,
-    } as Animated.SpringAnimationConfig);
-  }
+  const FlipCard = () => {
+    if (curentValue <= 90 && !flipped) {
+      Animated.spring(animatedValue, {
+        toValue: 180,
+        friction: 8,
+        tension: 10,
+        useNativeDriver: false,
+      } as Animated.SpringAnimationConfig).start(() => setFlipped(index));
+    } else if (curentValue > 90) {
+      Animated.spring(animatedValue, {
+        toValue: 0,
+        friction: 8,
+        tension: 10,
+        useNativeDriver: false,
+      } as Animated.SpringAnimationConfig).start(() => setFlipped(index));
+    }
+  };
 
   return (
-    <Pressable style={[box]} onPress={() => setFlipped(index)}>
+    <Pressable style={[box]} onPress={() => FlipCard()}>
       <Animated.View
         style={[
           cardBox,
@@ -99,8 +102,6 @@ const Row: FC = ({ children }) => {
 };
 
 export const Cards: FC = () => {
-  const { card } = useContext(CardManager);
-
   return (
     <>
       {Array.from({ length: numberOfColumn + 1 }, (_, rowID) => {
