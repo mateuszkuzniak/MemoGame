@@ -1,25 +1,31 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import { StyleSheet, View, Text } from "react-native";
+import { CardManager } from "../../Context";
 import {
   constColumn,
   constCenter,
   textColor,
-  ScoreObject,
   boxInRow,
+  scoreObject,
+  scoreObjectId,
 } from "../../const";
 
-type Props = {
-  scoreObject: ScoreObject[];
-};
-
-export const Score: FC<Props> = ({ scoreObject }) => {
+export const Score: FC = () => {
+  const { clickerCounter } = useContext(CardManager);
+  let number = 0;
   return (
     <>
       {scoreObject.map((item) => {
+        if (item.id === scoreObjectId.clickerCounter) {
+          number = clickerCounter;
+        } else {
+          number = item.number;
+        }
+
         return (
           <View key={item.id} style={[constColumn, box, boxInRow]}>
             <View style={[constCenter, score]}>
-              <Text style={[textColor, points]}>{item.number}</Text>
+              <Text style={[textColor, points]}>{number}</Text>
             </View>
             <View style={[constCenter, adnotation]}>
               <Text style={textColor}>{item.description}</Text>

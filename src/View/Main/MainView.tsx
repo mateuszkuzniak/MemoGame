@@ -2,15 +2,7 @@ import React from "react";
 import { FC } from "react";
 import { View, Text } from "react-native";
 import { ButtonBasic, Cards, Score } from "../../Components";
-import {
-  buttons,
-  Colors,
-  constCenter,
-  constRow,
-  scoreObject,
-  ScoreObject,
-  titleText,
-} from "../../const";
+import { buttons, Colors, constCenter, constRow, titleText } from "../../const";
 import {
   container,
   phoneBar,
@@ -36,7 +28,7 @@ export const MainView: FC<Props> = ({ text }) => {
         <Cards />
       </View>
       <View style={[constRow, scoreBar]}>
-        <Score scoreObject={scoreObject} />
+        <Score />
       </View>
       <View style={[constRow, bottomBar]}>
         {buttons.map((btn) => {

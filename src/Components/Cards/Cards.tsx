@@ -52,22 +52,27 @@ const Box: FC<BoxProps> = ({ index }) => {
   //#endregion
 
   const FlipCard = () => {
-    if (curentValue <= 90 && !flipped) {
+    if (!flipped) {
       Animated.spring(animatedValue, {
         toValue: 180,
         friction: 8,
         tension: 10,
         useNativeDriver: false,
-      } as Animated.SpringAnimationConfig).start(() => setFlipped(index));
-    } else if (curentValue > 90 && flipped) {
+      } as Animated.SpringAnimationConfig);
+      setFlipped(index);
+    }
+  };
+
+  useEffect(() => {
+    if (!flipped) {
       Animated.spring(animatedValue, {
         toValue: 0,
         friction: 8,
         tension: 10,
         useNativeDriver: false,
-      } as Animated.SpringAnimationConfig).start(() => setFlipped(index));
+      } as Animated.SpringAnimationConfig).start();
     }
-  };
+  }, [flipped]);
 
   return (
     <Pressable style={[box]} onPress={() => FlipCard()}>

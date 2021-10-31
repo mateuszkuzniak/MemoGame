@@ -7,10 +7,18 @@ import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 //#endregion
 
+export const scoreObjectId = {
+  clickerCounter: "clickerCounter",
+  timeToEnd: "timeToEnd",
+  timeToTheNextDraw: "timeToTheNExtDraw",
+  foundPairs: "foundPairs",
+};
+
 export const scoreObject = [
-  { id: "clickNumber", number: 0, description: "Liczba kliknięć" },
-  { id: "draw", number: 30, description: "Losowanie" },
-  { id: "timeToEnd", number: 30, description: "Czas do końca" },
+  { id: scoreObjectId.clickerCounter, description: "Liczba kliknięć" },
+  { id: scoreObjectId.foundPairs, number: 0, description: "Znalezione pary" },
+  { id: scoreObjectId.timeToTheNextDraw, number: 30, description: "Losowanie" },
+  { id: scoreObjectId.timeToEnd, number: 30, description: "Czas do końca" },
 ] as ScoreObject[];
 
 export const buttons = [

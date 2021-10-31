@@ -33,3 +33,8 @@ export type CardStore = {
   addAClick: () => void;
   findAPair: (cardId: string, pictureId: string) => void;
 };
+
+export type Round = {
+  index: number;
+  pictureId: string;
+};
