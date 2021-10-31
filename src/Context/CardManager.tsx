@@ -30,22 +30,18 @@ export const CardManagerProvider: FC = ({ children }) => {
   };
 
   const update = (index: number) => {
-    incrementClicker();
     setCurrentRound((r) => [
       ...r,
       { index: index, pictureId: card[index].pictureId },
     ]);
   };
 
-  const updateStructures = (index: number) => {
-    updateCard(index);
-    update(index);
-  };
-
   const setFlipped = (index: number) => {
     //Jeżeli: karta jest zakryta i jest mniej odkrytych niż 2
     if (!card[index].flipped && currentRound.length < 2) {
-      updateStructures(index);
+      updateCard(index);
+      incrementClicker();
+      update(index);
     }
     //Jeżeli karta jest zakryta, ale są już dwie odkryte
     else if (!card[index].flipped && currentRound.length == 2) {
@@ -55,8 +51,22 @@ export const CardManagerProvider: FC = ({ children }) => {
           updateCard(item.index);
         });
         setCurrentRound([]);
-        updateStructures(index);
+        updateCard(index);
+        incrementClicker();
+        update(index);
       }
+      //Jeżeli została kliknięta któraś z klikniętych
+    } else if (card[index].flipped && currentRound.length == 2) {
+      const indexToSave = currentRound.findIndex((i) => i.index === index);
+      let indexToRemove;
+      if (indexToSave === 0) {
+        indexToRemove = 1;
+      } else {
+        indexToRemove = 0;
+      }
+      updateCard(currentRound[indexToRemove].index);
+      setCurrentRound([{ ...currentRound[indexToSave] }]);
+      incrementClicker();
     }
   };
 

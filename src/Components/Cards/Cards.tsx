@@ -59,8 +59,8 @@ const Box: FC<BoxProps> = ({ index }) => {
         tension: 10,
         useNativeDriver: false,
       } as Animated.SpringAnimationConfig);
-      setFlipped(index);
     }
+    setFlipped(index);
   };
 
   useEffect(() => {
