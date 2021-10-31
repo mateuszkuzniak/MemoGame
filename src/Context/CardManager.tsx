@@ -6,20 +6,25 @@ export const CardManager = createContext({} as CardStore);
 
 export const CardManagerProvider: FC = ({ children }) => {
   const [card, setCard] = useState(CardStoreConstructor());
+  const [clickerCounter, setClickerCounter] = useState(0);
 
   const setFlipped = (index: number) => {
-    setCard((card) => [
-      ...card.slice(0, index),
-      { ...card[index], flipped: !card[index].flipped },
-      ...card.slice(index + 1),
-    ]);
+    if (card[index].flipped) {
+      setCard((card) => [
+        ...card.slice(0, index),
+        { ...card[index], flipped: !card[index].flipped },
+        ...card.slice(index + 1),
+      ]);
+    } else {
+      console.log("tu masz być");
+    }
   };
 
   return (
     <CardManager.Provider
       value={{
         card,
-        clickerCounter: 0,
+        clickerCounter,
         flippedCardCounterCounter: 0,
         setFlipped,
         setPaired: (cardId: string, pictureId: string) => {},

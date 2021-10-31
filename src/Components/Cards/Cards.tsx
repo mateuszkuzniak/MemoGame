@@ -59,7 +59,7 @@ const Box: FC<BoxProps> = ({ index }) => {
         tension: 10,
         useNativeDriver: false,
       } as Animated.SpringAnimationConfig).start(() => setFlipped(index));
-    } else if (curentValue > 90) {
+    } else if (curentValue > 90 && flipped) {
       Animated.spring(animatedValue, {
         toValue: 0,
         friction: 8,
