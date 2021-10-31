@@ -1,11 +1,19 @@
 import React from "react";
-import { CardManagerProvider, MainContaine, MainView, TitleApp } from "./src";
+import {
+  CardManagerProvider,
+  MainContaine,
+  MainView,
+  PomodoroProvider,
+  TitleApp,
+} from "./src";
 
 export default function App() {
   return (
     <MainContaine>
       <CardManagerProvider>
-        <MainView text={TitleApp}></MainView>
+        <PomodoroProvider>
+          <MainView text={TitleApp}></MainView>
+        </PomodoroProvider>
       </CardManagerProvider>
     </MainContaine>
   );

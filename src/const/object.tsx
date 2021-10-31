@@ -22,7 +22,7 @@ export const scoreObject = [
   },
   { id: scoreObjectId.foundPairs, number: 0, description: "Znalezione pary" },
   { id: scoreObjectId.timeToTheNextDraw, number: 30, description: "Losowanie" },
-  { id: scoreObjectId.timeToEnd, number: 30, description: "Czas do końca" },
+  { id: scoreObjectId.timeToEnd, number: 3, description: "Czas do końca" },
 ] as ScoreObject[];
 
 export const buttons = [

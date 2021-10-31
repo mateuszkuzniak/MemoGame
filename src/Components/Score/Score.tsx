@@ -1,6 +1,6 @@
 import React, { FC, useContext } from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { CardManager } from "../../Context";
+import { CardManager, PomodoroManager } from "../../Context";
 import {
   constColumn,
   constCenter,
@@ -12,7 +12,12 @@ import {
 
 export const Score: FC = () => {
   const { clickerCounter, numberOfFoundPairs } = useContext(CardManager);
+  const { secondToDraw, minutesToGo, secondToGo } = useContext(PomodoroManager);
   let number = 0;
+  let timeToEnd =
+    minutesToGo === 0 && secondToDraw === 0
+      ? "0"
+      : `${minutesToGo}:${secondToGo}`;
   return (
     <>
       {scoreObject.map((item) => {
@@ -20,6 +25,10 @@ export const Score: FC = () => {
           number = clickerCounter;
         } else if (item.id === scoreObjectId.foundPairs) {
           number = numberOfFoundPairs;
+        } else if (item.id === scoreObjectId.timeToTheNextDraw) {
+          number = secondToDraw;
+        } else if (item.id === scoreObjectId.timeToEnd) {
+          number = -1;
         } else {
           number = item.number;
         }
@@ -27,7 +36,9 @@ export const Score: FC = () => {
         return (
           <View key={item.id} style={[constColumn, box, boxInRow]}>
             <View style={[constCenter, score]}>
-              <Text style={[textColor, points]}>{number}</Text>
+              <Text style={[textColor, points]}>
+                {number === -1 ? timeToEnd : number}
+              </Text>
             </View>
             <View style={[constCenter, adnotation]}>
               <Text style={textColor}>{item.description}</Text>

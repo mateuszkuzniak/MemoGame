@@ -2,6 +2,9 @@ import { Animated, ImageProps } from "react-native";
 
 export const TitleApp = "MobileMemo";
 export const numberOfColumn = 4;
+export const SecondToDrawConst = 30;
+export const MinutesToGoConst = 2;
+
 export type ScoreObject = {
   id: string;
   number: number;
@@ -33,4 +36,11 @@ export type CardStore = {
 export type Round = {
   index: number;
   pictureId: string;
+};
+
+export type PomodoroStore = {
+  secondToDraw: number;
+  minutesToGo: number;
+  secondToGo: number;
+  gameOver: boolean;
 };
