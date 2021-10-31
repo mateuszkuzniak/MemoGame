@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FC } from "react";
 import {
   View,
@@ -16,15 +16,18 @@ import {
   constRow,
   numberOfColumn,
 } from "../../const";
-import { imageArray } from "../../images/image";
+import { CardManager } from "../../Context";
 
 type BoxProps = {
   pathToFile: ImageProps | Readonly<ImageProps>;
+  id: string;
+  pictureId: string;
+  flipped: boolean;
 };
-
-const Box: FC<BoxProps> = ({ pathToFile }) => {
-  const animatedValue = new Animated.Value(0);
+const Box: FC<BoxProps> = ({ pathToFile, id, pictureId, flipped }) => {
+  const { setFlipped } = useContext(CardManager);
   let curentValue = 0;
+  const animatedValue = new Animated.Value(0);
 
   animatedValue.addListener(({ value }) => (curentValue = value));
 
@@ -49,6 +52,7 @@ const Box: FC<BoxProps> = ({ pathToFile }) => {
   //#endregion
 
   const flipCard = () => {
+    console.log(curentValue);
     if (curentValue >= 90) {
       Animated.spring(animatedValue, {
         toValue: 0,
@@ -65,6 +69,11 @@ const Box: FC<BoxProps> = ({ pathToFile }) => {
       } as Animated.SpringAnimationConfig).start();
     }
   };
+
+  useEffect(() => {
+    flipCard();
+    setFlipped(id, pictureId);
+  }, []);
 
   return (
     <Pressable style={[box]} onPress={() => flipCard()}>
@@ -99,6 +108,8 @@ const Row: FC = ({ children }) => {
 };
 
 export const Cards: FC = () => {
+  const { card } = useContext(CardManager);
+
   return (
     <>
       {Array.from({ length: numberOfColumn + 1 }, (_, rowID) => {
@@ -108,7 +119,10 @@ export const Cards: FC = () => {
               return (
                 <Box
                   key={boxID}
-                  pathToFile={imageArray[numberOfColumn * rowID + boxID].path}
+                  pathToFile={card![numberOfColumn * rowID + boxID].pathToFile}
+                  id={card![numberOfColumn * rowID + boxID].boxId}
+                  pictureId={card![numberOfColumn * rowID + boxID].pictureId}
+                  flipped={card![numberOfColumn * rowID + boxID].flipped}
                 />
               );
             })}

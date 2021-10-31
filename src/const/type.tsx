@@ -1,4 +1,5 @@
-import { Icon } from "@expo/vector-icons/build/createIconSet";
+import { ImageProps } from "react-native";
+import { imageArray } from "../images/image";
 
 export const TitleApp = "MobileMemo";
 export const numberOfColumn = 4;
@@ -17,23 +18,20 @@ export type ButtonBasicProp = {
 };
 
 export type Card = {
-  id: string;
+  boxId: string;
   pictureId: string;
+  pathToFile: ImageProps | Readonly<ImageProps>;
   flipped: boolean;
   paired: boolean;
-  setFlipped: () => void;
-  setPaired: () => void;
-  changeCardState: (cardId: string) => void;
 };
 
 export type CardStore = {
   card: Card[];
   clickerCounter: number;
   flippedCardCounterCounter: number;
+  setFlipped: (cardId: string, pictureId: string) => void;
+  setPaired: (cardId: string, pictureId: string) => void;
+  changeCardState: (cardId: string) => void;
   addAClick: () => void;
   findAPair: (cardId: string, pictureId: string) => void;
-};
-
-export const CardStoreConstructor = () => {
-  let card = [] as Card[];
 };
