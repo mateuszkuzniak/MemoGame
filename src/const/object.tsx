@@ -15,7 +15,11 @@ export const scoreObjectId = {
 };
 
 export const scoreObject = [
-  { id: scoreObjectId.clickerCounter, description: "Liczba kliknięć" },
+  {
+    id: scoreObjectId.clickerCounter,
+    number: 0,
+    description: "Liczba kliknięć",
+  },
   { id: scoreObjectId.foundPairs, number: 0, description: "Znalezione pary" },
   { id: scoreObjectId.timeToTheNextDraw, number: 30, description: "Losowanie" },
   { id: scoreObjectId.timeToEnd, number: 30, description: "Czas do końca" },

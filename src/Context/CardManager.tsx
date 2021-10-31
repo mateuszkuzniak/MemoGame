@@ -10,6 +10,17 @@ export const CardManagerProvider: FC = ({ children }) => {
   const [currentRound, setCurrentRound] = useState([] as Round[]);
   const [numberOfFoundPairs, setNumberOfFoundPairs] = useState(0);
 
+  //#region increment value
+  const incrementFoundPairs = () => {
+    setNumberOfFoundPairs((n) => n + 1);
+  };
+
+  const incrementClicker = () => {
+    setClickerCounter((c) => c + 1);
+  };
+
+  //#endregion
+
   const updateCard = (index: number) => {
     setCard((card) => [
       ...card.slice(0, index),
@@ -19,7 +30,7 @@ export const CardManagerProvider: FC = ({ children }) => {
   };
 
   const update = (index: number) => {
-    setClickerCounter((c) => c + 1);
+    incrementClicker();
     setCurrentRound((r) => [
       ...r,
       { index: index, pictureId: card[index].pictureId },
@@ -47,24 +58,26 @@ export const CardManagerProvider: FC = ({ children }) => {
         setCurrentRound([]);
         updateStructures(index);
       }
-      //Dwie karty są takie same
-      else {
-        setCurrentRound([]);
-        updateStructures(index);
-      }
     }
   };
+
+  useEffect(() => {
+    if (currentRound.length === 2) {
+      //Dwie karty są takie same
+      if (currentRound[0].pictureId === currentRound[1].pictureId) {
+        setCurrentRound([]);
+        incrementFoundPairs();
+      }
+    }
+  }, [currentRound]);
 
   return (
     <CardManager.Provider
       value={{
         card,
         clickerCounter,
-        flippedCardCounterCounter: 0,
+        numberOfFoundPairs,
         setFlipped,
-        setPaired: (cardId: string, pictureId: string) => {},
-        changeCardState: (cardId: string) => {},
-        addAClick: () => {},
         findAPair: (cardId: string, pictureId: string) => {},
       }}
     >

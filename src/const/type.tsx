@@ -20,17 +20,13 @@ export type Card = {
   pictureId: string;
   pathToFile: ImageProps | Readonly<ImageProps>;
   flipped: boolean;
-  paired: boolean;
 };
 
 export type CardStore = {
   card: Card[];
   clickerCounter: number;
-  flippedCardCounterCounter: number;
+  numberOfFoundPairs: number;
   setFlipped: (index: number) => void;
-  setPaired: (cardId: string, pictureId: string) => void;
-  changeCardState: (cardId: string) => void;
-  addAClick: () => void;
   findAPair: (cardId: string, pictureId: string) => void;
 };
 

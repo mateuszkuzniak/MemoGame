@@ -11,13 +11,15 @@ import {
 } from "../../const";
 
 export const Score: FC = () => {
-  const { clickerCounter } = useContext(CardManager);
+  const { clickerCounter, numberOfFoundPairs } = useContext(CardManager);
   let number = 0;
   return (
     <>
       {scoreObject.map((item) => {
         if (item.id === scoreObjectId.clickerCounter) {
           number = clickerCounter;
+        } else if (item.id === scoreObjectId.foundPairs) {
+          number = numberOfFoundPairs;
         } else {
           number = item.number;
         }
