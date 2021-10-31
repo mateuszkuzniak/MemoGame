@@ -24,10 +24,10 @@ type BoxProps = {
 const Box: FC<BoxProps> = ({ index }) => {
   const { card, setFlipped } = useContext(CardManager);
   const { pathToFile, flipped } = card[index];
+
   let curentValue = !flipped ? 0 : 180;
 
   const animatedValue = new Animated.Value(flipped ? 180 : 0);
-  const animatedValueRef = createRef<Animated.Value>();
 
   animatedValue.addListener(({ value }) => (curentValue = value));
 
@@ -127,16 +127,6 @@ const { box, row, cardBox, frontCard, backCard } = StyleSheet.create({
     flex: 1,
     margin: 0,
   },
-  // box: {
-  //   width: "20%",
-  //   height: "100%",
-  //   marginLeft: "4%",
-  // },
-  // row: {
-  //   marginTop: "5.5%",
-  //   width: "100%",
-  //   height: "15%",
-  // },
   cardBox: {
     height: "100%",
     width: "100%",
