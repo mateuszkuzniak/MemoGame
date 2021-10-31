@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { FC } from "react";
 import {
   View,
@@ -6,7 +6,7 @@ import {
   Animated,
   Pressable,
   Image,
-  ImageProps,
+  Easing,
 } from "react-native";
 import {
   borderRadius,
@@ -19,17 +19,14 @@ import {
 import { CardManager } from "../../Context";
 
 type BoxProps = {
-  pathToFile: ImageProps | Readonly<ImageProps>;
-  id: string;
-  pictureId: string;
   index: number;
 };
-const Box: FC<BoxProps> = ({ pathToFile, id, pictureId, index }) => {
+const Box: FC<BoxProps> = ({ index }) => {
   const { card, setFlipped } = useContext(CardManager);
+  const { pathToFile, boxId, pictureId, flipped } = card[index];
+  let curentValue = !flipped ? 0 : 180;
 
-  let curentValue = !card[index].flipped ? 0 : 180;
-
-  const animatedValue = new Animated.Value(card[index].flipped ? 180 : 0);
+  const animatedValue = new Animated.Value(flipped ? 180 : 0);
 
   animatedValue.addListener(({ value }) => (curentValue = value));
 
@@ -53,27 +50,24 @@ const Box: FC<BoxProps> = ({ pathToFile, id, pictureId, index }) => {
   };
   //#endregion
 
-  const Flip = () => {
-    setFlipped(id, pictureId);
-    if (curentValue <= 90 && card[index].flipped) {
-      Animated.spring(animatedValue, {
-        toValue: 180,
-        friction: 8,
-        tension: 10,
-        useNativeDriver: false,
-      } as Animated.SpringAnimationConfig).start();
-    } else if (!card[index].flipped) {
-      Animated.spring(animatedValue, {
-        toValue: 0,
-        friction: 8,
-        tension: 10,
-        useNativeDriver: false,
-      } as Animated.SpringAnimationConfig).start();
-    }
-  };
+  if (curentValue <= 90 && flipped) {
+    Animated.spring(animatedValue, {
+      toValue: 180,
+      friction: 8,
+      tension: 10,
+      useNativeDriver: false,
+    } as Animated.SpringAnimationConfig);
+  } else if (!flipped) {
+    Animated.spring(animatedValue, {
+      toValue: 0,
+      friction: 8,
+      tension: 10,
+      useNativeDriver: false,
+    } as Animated.SpringAnimationConfig);
+  }
 
   return (
-    <Pressable style={[box]} onPress={() => Flip()}>
+    <Pressable style={[box]} onPress={() => setFlipped(boxId, pictureId)}>
       <Animated.View
         style={[
           cardBox,
@@ -114,15 +108,7 @@ export const Cards: FC = () => {
           <Row key={rowID}>
             {Array.from({ length: numberOfColumn }, (_, boxID) => {
               const index = numberOfColumn * rowID + boxID;
-              return (
-                <Box
-                  key={boxID}
-                  pathToFile={card![index].pathToFile}
-                  id={card![index].boxId}
-                  pictureId={card![index].pictureId}
-                  index={index}
-                />
-              );
+              return <Box key={index} index={index} />;
             })}
           </Row>
         );

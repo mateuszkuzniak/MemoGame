@@ -1,5 +1,4 @@
 import { ImageProps } from "react-native";
-import { imageArray } from "../images/image";
 
 export const TitleApp = "MobileMemo";
 export const numberOfColumn = 4;
