@@ -7,20 +7,13 @@ export const CardManager = createContext({} as CardStore);
 export const CardManagerProvider: FC = ({ children }) => {
   const [card, setCard] = useState(CardStoreConstructor());
 
-  const setFlipped = (cardId: string, pictureId: string) => {
-    const tempCard = [] as Card[];
-    card.forEach((item) => {
-      if (item.boxId == cardId && item.pictureId == pictureId) {
-        tempCard.push({
-          ...item,
-          flipped: !item.flipped,
-        });
-      } else {
-        tempCard.push(item);
-      }
-      console.log("jestem");
-    });
-    setCard(tempCard);
+  const setFlipped = (boxId: string, pictureId: string) => {
+    const index = card.findIndex((card) => card.boxId === boxId);
+    setCard((card) => [
+      ...card.slice(0, index),
+      { ...card[index], flipped: !card[index].flipped },
+      ...card.slice(index + 1),
+    ]);
   };
 
   return (

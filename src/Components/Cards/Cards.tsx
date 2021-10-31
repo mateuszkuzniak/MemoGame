@@ -22,10 +22,11 @@ type BoxProps = {
   pathToFile: ImageProps | Readonly<ImageProps>;
   id: string;
   pictureId: string;
-  flipped: boolean;
+  index: number;
 };
-const Box: FC<BoxProps> = ({ pathToFile, id, pictureId, flipped }) => {
-  const { setFlipped } = useContext(CardManager);
+const Box: FC<BoxProps> = ({ pathToFile, id, pictureId }) => {
+  const { card, setFlipped } = useContext(CardManager);
+
   let curentValue = 0;
   const animatedValue = new Animated.Value(0);
 
@@ -70,16 +71,11 @@ const Box: FC<BoxProps> = ({ pathToFile, id, pictureId, flipped }) => {
     }
   };
 
-  useEffect(() => {
-    flipCard();
-    setFlipped(id, pictureId);
-  }, []);
-
   return (
     <Pressable style={[box]} onPress={() => flipCard()}>
       <Animated.View
         style={[
-          card,
+          cardBox,
           frontCard,
           frontAnimatedStyle,
           boxShadow,
@@ -90,14 +86,14 @@ const Box: FC<BoxProps> = ({ pathToFile, id, pictureId, flipped }) => {
       <Animated.View
         style={[
           backAnimatedStyle,
-          card,
+          cardBox,
           backCard,
           boxShadow,
           borderRadius,
           constCenter,
         ]}
       >
-        <Image style={[card, borderRadius]} source={pathToFile} />
+        <Image style={[cardBox, borderRadius]} source={pathToFile} />
       </Animated.View>
     </Pressable>
   );
@@ -116,13 +112,14 @@ export const Cards: FC = () => {
         return (
           <Row key={rowID}>
             {Array.from({ length: numberOfColumn }, (_, boxID) => {
+              const index = numberOfColumn * rowID + boxID;
               return (
                 <Box
                   key={boxID}
-                  pathToFile={card![numberOfColumn * rowID + boxID].pathToFile}
-                  id={card![numberOfColumn * rowID + boxID].boxId}
-                  pictureId={card![numberOfColumn * rowID + boxID].pictureId}
-                  flipped={card![numberOfColumn * rowID + boxID].flipped}
+                  pathToFile={card![index].pathToFile}
+                  id={card![index].boxId}
+                  pictureId={card![index].pictureId}
+                  index={index}
                 />
               );
             })}
@@ -133,7 +130,7 @@ export const Cards: FC = () => {
   );
 };
 
-const { box, row, card, frontCard, backCard } = StyleSheet.create({
+const { box, row, cardBox, frontCard, backCard } = StyleSheet.create({
   box: {
     margin: 10,
     flex: 1,
@@ -152,7 +149,7 @@ const { box, row, card, frontCard, backCard } = StyleSheet.create({
   //   width: "100%",
   //   height: "15%",
   // },
-  card: {
+  cardBox: {
     height: "100%",
     width: "100%",
   },
