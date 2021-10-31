@@ -43,7 +43,6 @@ export const CardManagerProvider: FC = ({ children }) => {
   };
 
   const setFlipped = (index: number) => {
-    console.log(card[index]);
     //Jeżeli: karta jest zakryta i jest mniej odkrytych niż 2
     if (!card[index].flipped && currentRound.length < 2) {
       updateStructures(index);
@@ -70,6 +69,12 @@ export const CardManagerProvider: FC = ({ children }) => {
       }
     }
   }, [currentRound]);
+
+  useEffect(() => {
+    if (numberOfFoundPairs % 10 === 0) {
+      setCard(CardStoreConstructor());
+    }
+  }, [numberOfFoundPairs]);
 
   return (
     <CardManager.Provider
