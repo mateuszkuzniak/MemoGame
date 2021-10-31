@@ -24,11 +24,12 @@ type BoxProps = {
   pictureId: string;
   index: number;
 };
-const Box: FC<BoxProps> = ({ pathToFile, id, pictureId }) => {
+const Box: FC<BoxProps> = ({ pathToFile, id, pictureId, index }) => {
   const { card, setFlipped } = useContext(CardManager);
 
-  let curentValue = 0;
-  const animatedValue = new Animated.Value(0);
+  let curentValue = !card[index].flipped ? 0 : 180;
+
+  const animatedValue = new Animated.Value(card[index].flipped ? 180 : 0);
 
   animatedValue.addListener(({ value }) => (curentValue = value));
 
@@ -52,18 +53,18 @@ const Box: FC<BoxProps> = ({ pathToFile, id, pictureId }) => {
   };
   //#endregion
 
-  const flipCard = () => {
-    console.log(curentValue);
-    if (curentValue >= 90) {
+  const Flip = () => {
+    setFlipped(id, pictureId);
+    if (curentValue <= 90 && card[index].flipped) {
       Animated.spring(animatedValue, {
-        toValue: 0,
+        toValue: 180,
         friction: 8,
         tension: 10,
         useNativeDriver: false,
       } as Animated.SpringAnimationConfig).start();
-    } else {
+    } else if (!card[index].flipped) {
       Animated.spring(animatedValue, {
-        toValue: 180,
+        toValue: 0,
         friction: 8,
         tension: 10,
         useNativeDriver: false,
@@ -72,7 +73,7 @@ const Box: FC<BoxProps> = ({ pathToFile, id, pictureId }) => {
   };
 
   return (
-    <Pressable style={[box]} onPress={() => flipCard()}>
+    <Pressable style={[box]} onPress={() => Flip()}>
       <Animated.View
         style={[
           cardBox,

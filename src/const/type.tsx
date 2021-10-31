@@ -29,7 +29,7 @@ export type CardStore = {
   card: Card[];
   clickerCounter: number;
   flippedCardCounterCounter: number;
-  setFlipped: (cardId: string, pictureId: string) => void;
+  setFlipped: (boxId: string, pictureId: string) => void;
   setPaired: (cardId: string, pictureId: string) => void;
   changeCardState: (cardId: string) => void;
   addAClick: () => void;
