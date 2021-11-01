@@ -27,15 +27,21 @@ export const scoreObject = [
   { id: scoreObjectId.timeToEnd, number: 3, description: "Czas do końca" },
 ] as ScoreObject[];
 
+export const buttonId = {
+  findMe: "btn_1",
+  resetDraw: "btn_2",
+  addTime: "btn_3",
+};
+
 export const buttons = [
   {
-    id: "btn_1",
+    id: buttonId.findMe,
     text: "Znajdź mnie!",
     action: () => {},
     ico: <AntDesign name="find" size={24} color={Colors.Text} />,
   },
   {
-    id: "btn_2",
+    id: buttonId.resetDraw,
     text: "Resetuj losowanie",
     action: () => {},
     ico: (
@@ -47,7 +53,7 @@ export const buttons = [
     ),
   },
   {
-    id: "btn_3",
+    id: buttonId.addTime,
     text: "Dodaj czas",
     action: () => {},
     ico: <AntDesign name="pluscircleo" size={24} color={Colors.Text} />,

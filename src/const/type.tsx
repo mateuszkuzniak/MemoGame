@@ -44,4 +44,6 @@ export type PomodoroStore = {
   minutesToGo: number;
   secondToGo: number;
   gameOver: boolean;
+  resetTimeToDraw: () => void;
+  addTime: () => void;
 };
