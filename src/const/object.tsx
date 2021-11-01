@@ -3,8 +3,10 @@ import { Colors } from "./style";
 import { ButtonBasicProp, ScoreObject } from "./type";
 
 //#region ICO
+//https://icons.expo.fyi/
 import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 //#endregion
 
 export const scoreObjectId = {
@@ -34,9 +36,15 @@ export const buttons = [
   },
   {
     id: "btn_2",
-    text: "Zatrzymaj losowanie",
+    text: "Resetuj losowanie",
     action: () => {},
-    ico: <Entypo name="stopwatch" size={24} color={Colors.Text} />,
+    ico: (
+      <MaterialCommunityIcons
+        name="watch-vibrate-off"
+        size={24}
+        color={Colors.Text}
+      />
+    ),
   },
   {
     id: "btn_3",

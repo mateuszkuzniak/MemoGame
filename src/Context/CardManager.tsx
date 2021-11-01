@@ -1,5 +1,11 @@
-import React, { createContext, FC, useEffect, useState } from "react";
-import { Card, CardStore, Round } from "../const";
+import React, {
+  createContext,
+  FC,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { CardStore, Round } from "../const";
 import { CardStoreConstructor } from "../const/function";
 
 export const CardManager = createContext({} as CardStore);
@@ -70,6 +76,11 @@ export const CardManagerProvider: FC = ({ children }) => {
     }
   };
 
+  const resetBoard = () => {
+    setCard(CardStoreConstructor());
+    setCurrentRound([]);
+  };
+
   useEffect(() => {
     if (currentRound.length === 2) {
       //Dwie karty są takie same
@@ -93,6 +104,7 @@ export const CardManagerProvider: FC = ({ children }) => {
         clickerCounter,
         numberOfFoundPairs,
         setFlipped,
+        resetBoard,
         findAPair: (cardId: string, pictureId: string) => {},
       }}
     >

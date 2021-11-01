@@ -9,12 +9,12 @@ import {
 
 export default function App() {
   return (
-    <MainContaine>
-      <CardManagerProvider>
-        <PomodoroProvider>
+    <CardManagerProvider>
+      <PomodoroProvider>
+        <MainContaine>
           <MainView text={TitleApp}></MainView>
-        </PomodoroProvider>
-      </CardManagerProvider>
-    </MainContaine>
+        </MainContaine>
+      </PomodoroProvider>
+    </CardManagerProvider>
   );
 }

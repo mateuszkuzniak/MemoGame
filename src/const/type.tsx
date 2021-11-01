@@ -30,6 +30,7 @@ export type CardStore = {
   clickerCounter: number;
   numberOfFoundPairs: number;
   setFlipped: (index: number) => void;
+  resetBoard: () => void;
   findAPair: (cardId: string, pictureId: string) => void;
 };
 

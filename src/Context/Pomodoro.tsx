@@ -1,4 +1,11 @@
-import React, { createContext, FC, useEffect, useState } from "react";
+import React, {
+  createContext,
+  FC,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { CardManager } from "./CardManager";
 import {
   MinutesToGoConst,
   PomodoroStore,
@@ -8,6 +15,7 @@ import {
 export const PomodoroManager = createContext({} as PomodoroStore);
 
 export const PomodoroProvider: FC = ({ children }) => {
+  const { resetBoard } = useContext(CardManager);
   const [secondToDraw, setSecondToDraw] = useState(SecondToDrawConst);
   const [minutesToGo, setMinutesToGo] = useState(MinutesToGoConst);
   const [secondToGo, setSecondToGo] = useState(0);
@@ -21,6 +29,7 @@ export const PomodoroProvider: FC = ({ children }) => {
       } else {
         if (minutesToGo * 60 + secondToGo >= 30) {
           setSecondToDraw(30);
+          resetBoard();
         }
       }
     }, 1000);
