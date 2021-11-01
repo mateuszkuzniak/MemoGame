@@ -16,11 +16,10 @@ import {
 export const PomodoroManager = createContext({} as PomodoroStore);
 
 export const PomodoroProvider: FC = ({ children }) => {
-  const { resetBoard } = useContext(CardManager);
+  const { resetBoard, gameOver, quitGame } = useContext(CardManager);
   const [secondToDraw, setSecondToDraw] = useState(SecondToDrawConst);
   const [minutesToGo, setMinutesToGo] = useState(MinutesToGoConst);
   const [secondToGo, setSecondToGo] = useState(0);
-  const [gameOver, setGameOver] = useState(false);
 
   const timeToEnd = () => {
     if (minutesToGo * 60 + secondToGo >= SecondToDrawConst) {
@@ -66,7 +65,7 @@ export const PomodoroProvider: FC = ({ children }) => {
           setSecondToGo(59);
           setMinutesToGo((m) => m - 1);
         } else {
-          setGameOver(true);
+          quitGame();
         }
       } else {
         setSecondToGo((s) => s - 1);

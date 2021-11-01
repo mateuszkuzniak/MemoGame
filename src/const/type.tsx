@@ -30,9 +30,11 @@ export type CardStore = {
   card: Card[];
   clickerCounter: number;
   numberOfFoundPairs: number;
+  gameOver: boolean;
   setFlipped: (index: number) => void;
   resetBoard: () => void;
   findMe: () => void;
+  quitGame: () => void;
 };
 
 export type Round = {

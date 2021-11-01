@@ -15,6 +15,7 @@ export const CardManagerProvider: FC = ({ children }) => {
   const [clickerCounter, setClickerCounter] = useState(0);
   const [currentRound, setCurrentRound] = useState([] as Round[]);
   const [numberOfFoundPairs, setNumberOfFoundPairs] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
 
   //#region increment value
   const incrementFoundPairs = () => {
@@ -43,36 +44,38 @@ export const CardManagerProvider: FC = ({ children }) => {
   };
 
   const setFlipped = (index: number) => {
-    //Jeżeli: karta jest zakryta i jest mniej odkrytych niż 2
-    if (!card[index].flipped && currentRound.length < 2) {
-      updateCard(index);
-      incrementClicker();
-      update(index);
-    }
-    //Jeżeli karta jest zakryta, ale są już dwie odkryte
-    else if (!card[index].flipped && currentRound.length == 2) {
-      //Dwie odkryte karty są różne
-      if (currentRound[0].pictureId !== currentRound[1].pictureId) {
-        currentRound.forEach((item) => {
-          updateCard(item.index);
-        });
-        setCurrentRound([]);
+    if (!gameOver) {
+      //Jeżeli: karta jest zakryta i jest mniej odkrytych niż 2
+      if (!card[index].flipped && currentRound.length < 2) {
         updateCard(index);
         incrementClicker();
         update(index);
       }
-      //Jeżeli została kliknięta któraś z klikniętych
-    } else if (card[index].flipped && currentRound.length == 2) {
-      const indexToSave = currentRound.findIndex((i) => i.index === index);
-      let indexToRemove;
-      if (indexToSave === 0) {
-        indexToRemove = 1;
-      } else {
-        indexToRemove = 0;
+      //Jeżeli karta jest zakryta, ale są już dwie odkryte
+      else if (!card[index].flipped && currentRound.length == 2) {
+        //Dwie odkryte karty są różne
+        if (currentRound[0].pictureId !== currentRound[1].pictureId) {
+          currentRound.forEach((item) => {
+            updateCard(item.index);
+          });
+          setCurrentRound([]);
+          updateCard(index);
+          incrementClicker();
+          update(index);
+        }
+        //Jeżeli została kliknięta któraś z klikniętych
+      } else if (card[index].flipped && currentRound.length == 2) {
+        const indexToSave = currentRound.findIndex((i) => i.index === index);
+        let indexToRemove;
+        if (indexToSave === 0) {
+          indexToRemove = 1;
+        } else {
+          indexToRemove = 0;
+        }
+        updateCard(currentRound[indexToRemove].index);
+        setCurrentRound([{ ...currentRound[indexToSave] }]);
+        incrementClicker();
       }
-      updateCard(currentRound[indexToRemove].index);
-      setCurrentRound([{ ...currentRound[indexToSave] }]);
-      incrementClicker();
     }
   };
 
@@ -93,6 +96,10 @@ export const CardManagerProvider: FC = ({ children }) => {
       incrementClicker();
       setCurrentRound([]);
     }
+  };
+
+  const quitGame = () => {
+    setGameOver(true);
   };
 
   useEffect(() => {
@@ -117,9 +124,11 @@ export const CardManagerProvider: FC = ({ children }) => {
         card,
         clickerCounter,
         numberOfFoundPairs,
+        gameOver,
         setFlipped,
         resetBoard,
         findMe,
+        quitGame,
       }}
     >
       {children}

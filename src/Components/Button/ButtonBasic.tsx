@@ -16,10 +16,9 @@ import {
 export const ButtonBasic: FC<ButtonBasicProp> = (btn) => {
   const { id, text, color, ico, action } = btn;
   const { addTime, resetTimeToDraw } = useContext(PomodoroManager);
-  const { findMe } = useContext(CardManager);
+  const { findMe, gameOver } = useContext(CardManager);
 
   let btnAction: () => void;
-
   if (id === buttonId.findMe) {
     btnAction = findMe;
   } else if (id === buttonId.resetDraw) {
@@ -43,7 +42,7 @@ export const ButtonBasic: FC<ButtonBasicProp> = (btn) => {
     >
       <Pressable
         onPress={() => {
-          btnAction();
+          gameOver ? {} : btnAction();
         }}
         style={constRow}
       >
