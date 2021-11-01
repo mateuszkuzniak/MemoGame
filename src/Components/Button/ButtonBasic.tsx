@@ -1,6 +1,6 @@
 import React, { FC, useContext } from "react";
 import { StyleSheet, View, Pressable, Text } from "react-native";
-import { PomodoroManager } from "../../Context";
+import { CardManager, PomodoroManager } from "../../Context";
 import {
   borderRadius,
   boxInRow,
@@ -16,11 +16,12 @@ import {
 export const ButtonBasic: FC<ButtonBasicProp> = (btn) => {
   const { id, text, color, ico, action } = btn;
   const { addTime, resetTimeToDraw } = useContext(PomodoroManager);
+  const { findMe } = useContext(CardManager);
 
   let btnAction: () => void;
 
   if (id === buttonId.findMe) {
-    btnAction = () => {};
+    btnAction = findMe;
   } else if (id === buttonId.resetDraw) {
     btnAction = resetTimeToDraw;
   } else if (id === buttonId.addTime) {

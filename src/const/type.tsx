@@ -3,7 +3,7 @@ import { ImageProps } from "react-native";
 export const TitleApp = "MobileMemo";
 export const numberOfColumn = 4;
 export const SecondToDrawConst = 30;
-export const MinutesToGoConst = 2;
+export const MinutesToGoConst = 1;
 export const MaximumGameTime = 5;
 
 export type ScoreObject = {
@@ -32,7 +32,7 @@ export type CardStore = {
   numberOfFoundPairs: number;
   setFlipped: (index: number) => void;
   resetBoard: () => void;
-  findAPair: (cardId: string, pictureId: string) => void;
+  findMe: () => void;
 };
 
 export type Round = {

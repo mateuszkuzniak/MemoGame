@@ -81,6 +81,20 @@ export const CardManagerProvider: FC = ({ children }) => {
     setCurrentRound([]);
   };
 
+  const findMe = () => {
+    if (currentRound.length === 1) {
+      const findIndex = card.findIndex(
+        (card, i) =>
+          card.pictureId === currentRound[0].pictureId &&
+          currentRound[0].index !== i
+      );
+      updateCard(findIndex);
+      incrementFoundPairs();
+      incrementClicker();
+      setCurrentRound([]);
+    }
+  };
+
   useEffect(() => {
     if (currentRound.length === 2) {
       //Dwie karty są takie same
@@ -105,7 +119,7 @@ export const CardManagerProvider: FC = ({ children }) => {
         numberOfFoundPairs,
         setFlipped,
         resetBoard,
-        findAPair: (cardId: string, pictureId: string) => {},
+        findMe,
       }}
     >
       {children}
