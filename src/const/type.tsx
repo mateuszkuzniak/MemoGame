@@ -1,9 +1,10 @@
-import { Animated, ImageProps } from "react-native";
+import { ImageProps } from "react-native";
 
 export const TitleApp = "MobileMemo";
 export const numberOfColumn = 4;
 export const SecondToDrawConst = 30;
 export const MinutesToGoConst = 2;
+export const MaximumGameTime = 5;
 
 export type ScoreObject = {
   id: string;

@@ -17,7 +17,7 @@ export const Score: FC = () => {
   let timeToEnd =
     minutesToGo === 0 && secondToDraw === 0
       ? "0"
-      : `${minutesToGo}:${secondToGo}`;
+      : `${minutesToGo}:${secondToGo < 10 ? `0${secondToGo}` : secondToGo}`;
   return (
     <>
       {scoreObject.map((item) => {
@@ -28,7 +28,7 @@ export const Score: FC = () => {
         } else if (item.id === scoreObjectId.timeToTheNextDraw) {
           number = secondToDraw;
         } else if (item.id === scoreObjectId.timeToEnd) {
-          number = -1;
+          number = -5;
         } else {
           number = item.number;
         }
@@ -37,7 +37,7 @@ export const Score: FC = () => {
           <View key={item.id} style={[constColumn, box, boxInRow]}>
             <View style={[constCenter, score]}>
               <Text style={[textColor, points]}>
-                {number === -1 ? timeToEnd : number}
+                {number === -5 ? timeToEnd : number}
               </Text>
             </View>
             <View style={[constCenter, adnotation]}>
