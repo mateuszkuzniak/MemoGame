@@ -16,7 +16,8 @@ import {
 export const PomodoroManager = createContext({} as PomodoroStore);
 
 export const PomodoroProvider: FC = ({ children }) => {
-  const { resetBoard, gameOver, quitGame } = useContext(CardManager);
+  const { resetBoard, gameOver, quitGame, numberOfFoundPairs } =
+    useContext(CardManager);
   const [secondToDraw, setSecondToDraw] = useState(SecondToDrawConst);
   const [minutesToGo, setMinutesToGo] = useState(MinutesToGoConst);
   const [secondToGo, setSecondToGo] = useState(0);
@@ -52,10 +53,6 @@ export const PomodoroProvider: FC = ({ children }) => {
       }
     }
   };
-
-  // useEffect(() =>{
-
-  // })
 
   useEffect(() => {
     let interval = setInterval(() => {

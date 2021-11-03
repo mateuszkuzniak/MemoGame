@@ -37,7 +37,7 @@ export const {
     flex: 3,
   },
   adsBar: {
-    backgroundColor: "red",
-    flex: 2,
+    backgroundColor: Colors.BrighterBackground,
+    height: 50,
   },
 });

@@ -1,8 +1,9 @@
+import { AdMobBanner, PublisherBanner } from "expo-ads-admob";
 import React from "react";
 import { FC } from "react";
 import { View, Text } from "react-native";
 import { ButtonBasic, Cards, Score } from "../../Components";
-import { buttons, Colors, constCenter, constRow, titleText } from "../../const";
+import { buttons, constCenter, constRow, titleText } from "../../const";
 import {
   container,
   phoneBar,
@@ -35,7 +36,12 @@ export const MainView: FC<Props> = ({ text }) => {
           return <ButtonBasic {...btn} key={btn.id} />;
         })}
       </View>
-      <View style={adsBar}></View>
+      <PublisherBanner
+        bannerSize="banner"
+        adUnitID="ca-app-pub-3940256099942544/6300978111" // Test ID, Replace with your-admob-unit-id
+        servePersonalizedAds={false} // true or false
+        style={[adsBar, constCenter]}
+      />
     </View>
   );
 };

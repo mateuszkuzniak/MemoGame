@@ -62,6 +62,6 @@ const { box, score, adnotation, points } = StyleSheet.create({
     flex: 2,
   },
   points: {
-    fontSize: 50,
+    fontSize: 35,
   },
 });

@@ -14,11 +14,13 @@ export const CardManagerProvider: FC = ({ children }) => {
   const [card, setCard] = useState(CardStoreConstructor());
   const [clickerCounter, setClickerCounter] = useState(0);
   const [currentRound, setCurrentRound] = useState([] as Round[]);
+  const [currentPair, setCurentPair] = useState(0);
   const [numberOfFoundPairs, setNumberOfFoundPairs] = useState(0);
   const [gameOver, setGameOver] = useState(false);
 
   //#region increment value
   const incrementFoundPairs = () => {
+    setCurentPair((n) => n + 1);
     setNumberOfFoundPairs((n) => n + 1);
   };
 
@@ -82,6 +84,7 @@ export const CardManagerProvider: FC = ({ children }) => {
   const resetBoard = () => {
     setCard(CardStoreConstructor());
     setCurrentRound([]);
+    setCurentPair(0);
   };
 
   const findMe = () => {
@@ -113,10 +116,10 @@ export const CardManagerProvider: FC = ({ children }) => {
   }, [currentRound]);
 
   useEffect(() => {
-    if (numberOfFoundPairs % 10 === 0) {
+    if (currentPair % 10 === 0) {
       setCard(CardStoreConstructor());
     }
-  }, [numberOfFoundPairs]);
+  }, [currentPair]);
 
   return (
     <CardManager.Provider
