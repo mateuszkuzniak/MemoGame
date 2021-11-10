@@ -1,4 +1,4 @@
-import { AdMobBanner, PublisherBanner } from "expo-ads-admob";
+import { AdMobBanner } from "expo-ads-admob";
 import React from "react";
 import { FC } from "react";
 import { View, Text } from "react-native";
@@ -36,7 +36,7 @@ export const MainView: FC<Props> = ({ text }) => {
           return <ButtonBasic {...btn} key={btn.id} />;
         })}
       </View>
-      <PublisherBanner
+      <AdMobBanner
         bannerSize="banner"
         adUnitID="ca-app-pub-3940256099942544/6300978111" // Test ID, Replace with your-admob-unit-id
         servePersonalizedAds={false} // true or false

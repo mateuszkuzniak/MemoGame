@@ -1,3 +1,4 @@
+import { AdMobInterstitial, AdMobRewarded } from "expo-ads-admob";
 import React, {
   createContext,
   FC,
@@ -7,6 +8,8 @@ import React, {
 } from "react";
 import { CardStore, Round } from "../const";
 import { CardStoreConstructor } from "../const/function";
+
+const androidInterId = "ca-app-pub-3940256099942544/1033173712";
 
 export const CardManager = createContext({} as CardStore);
 
@@ -27,7 +30,6 @@ export const CardManagerProvider: FC = ({ children }) => {
   const incrementClicker = () => {
     setClickerCounter((c) => c + 1);
   };
-
   //#endregion
 
   const updateCard = (index: number) => {
@@ -89,21 +91,47 @@ export const CardManagerProvider: FC = ({ children }) => {
 
   const findMe = () => {
     if (currentRound.length === 1) {
-      const findIndex = card.findIndex(
-        (card, i) =>
-          card.pictureId === currentRound[0].pictureId &&
-          currentRound[0].index !== i
-      );
-      updateCard(findIndex);
-      incrementFoundPairs();
-      incrementClicker();
-      setCurrentRound([]);
+      const find = () => {
+        const findIndex = card.findIndex(
+          (card, i) =>
+            card.pictureId === currentRound[0].pictureId &&
+            currentRound[0].index !== i
+        );
+        updateCard(findIndex);
+        incrementFoundPairs();
+        incrementClicker();
+        setCurrentRound([]);
+      };
+
+      getRewardForAds(find);
     }
   };
 
   const quitGame = () => {
     setGameOver(true);
   };
+
+  //#region
+
+  const getRewardForAds = (btnAction: () => void) => {
+    if (!gameOver) {
+      const showInterstitialAds = async () => {
+        try {
+          await AdMobRewarded.setAdUnitID(
+            "ca-app-pub-3940256099942544/5224354917"
+          ); // Test ID, Replace with your-admob-unit-id
+          await AdMobRewarded.requestAdAsync();
+          await AdMobRewarded.showAdAsync();
+        } catch {
+          (e: any) => console.log(e);
+        }
+      };
+      showInterstitialAds();
+      btnAction();
+    }
+  };
+
+  //#endregion
 
   useEffect(() => {
     if (currentRound.length === 2) {
@@ -121,6 +149,27 @@ export const CardManagerProvider: FC = ({ children }) => {
     }
   }, [currentPair]);
 
+  //#region ADS
+  useEffect(() => {
+    if (gameOver) {
+      const showInterstitialAds = async () => {
+        try {
+          AdMobInterstitial.setAdUnitID(androidInterId);
+          await AdMobInterstitial.requestAdAsync({
+            servePersonalizedAds: false,
+          });
+          await AdMobInterstitial.showAdAsync();
+        } catch {
+          (e: any) => console.log(e);
+        }
+      };
+
+      showInterstitialAds();
+    }
+  }, [gameOver]);
+
+  //#endregion
+
   return (
     <CardManager.Provider
       value={{
@@ -132,6 +181,7 @@ export const CardManagerProvider: FC = ({ children }) => {
         resetBoard,
         findMe,
         quitGame,
+        getRewardForAds,
       }}
     >
       {children}

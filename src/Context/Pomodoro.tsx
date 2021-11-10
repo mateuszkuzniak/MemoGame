@@ -16,7 +16,7 @@ import {
 export const PomodoroManager = createContext({} as PomodoroStore);
 
 export const PomodoroProvider: FC = ({ children }) => {
-  const { resetBoard, gameOver, quitGame, numberOfFoundPairs } =
+  const { resetBoard, gameOver, quitGame, getRewardForAds } =
     useContext(CardManager);
   const [secondToDraw, setSecondToDraw] = useState(SecondToDrawConst);
   const [minutesToGo, setMinutesToGo] = useState(MinutesToGoConst);
@@ -31,54 +31,59 @@ export const PomodoroProvider: FC = ({ children }) => {
 
   const resetTimeToDraw = () => {
     if (timeToEnd()) {
-      setSecondToDraw(SecondToDrawConst);
+      getRewardForAds(() => setSecondToDraw(SecondToDrawConst));
     }
   };
 
   const addTime = () => {
     if (!gameOver) {
-      const time = minutesToGo * 60 + secondToGo + SecondToDrawConst;
-      const maxTime = MaximumGameTime * 60;
-      if (time < maxTime) {
-        const sec = 60 - secondToGo;
-        if (sec > SecondToDrawConst) {
-          setSecondToGo((s) => s + SecondToDrawConst);
-        } else {
-          setMinutesToGo((m) => m + 1);
-          const time = 60 - secondToGo;
-          const sec = SecondToDrawConst - time;
-          console.log(sec);
-          setSecondToGo(sec);
+      const add = () => {
+        const time = minutesToGo * 60 + secondToGo + SecondToDrawConst;
+        const maxTime = MaximumGameTime * 60;
+        if (time < maxTime) {
+          const sec = 60 - secondToGo;
+          if (sec > SecondToDrawConst) {
+            setSecondToGo((s) => s + SecondToDrawConst);
+          } else {
+            setMinutesToGo((m) => m + 1);
+            const time = 60 - secondToGo;
+            const sec = SecondToDrawConst - time;
+            setSecondToGo(sec);
+          }
         }
-      }
+      };
+
+      getRewardForAds(add);
     }
   };
 
   useEffect(() => {
-    let interval = setInterval(() => {
-      //Czas do końca
-      if (secondToGo === 0) {
-        if (minutesToGo !== 0) {
-          setSecondToGo(59);
-          setMinutesToGo((m) => m - 1);
+    if (!gameOver) {
+      let interval = setInterval(() => {
+        //Czas do końca
+        if (secondToGo === 0) {
+          if (minutesToGo !== 0) {
+            setSecondToGo(59);
+            setMinutesToGo((m) => m - 1);
+          } else {
+            quitGame();
+          }
         } else {
-          quitGame();
+          setSecondToGo((s) => s - 1);
         }
-      } else {
-        setSecondToGo((s) => s - 1);
-      }
 
-      //Czas do losowania
-      if (secondToDraw > 0) {
-        setSecondToDraw((s) => s - 1);
-      } else {
-        if (timeToEnd()) {
-          setSecondToDraw(SecondToDrawConst - 1);
-          resetBoard();
+        //Czas do losowania
+        if (secondToDraw > 0) {
+          setSecondToDraw((s) => s - 1);
+        } else {
+          if (timeToEnd()) {
+            setSecondToDraw(SecondToDrawConst - 1);
+            resetBoard();
+          }
         }
-      }
-    }, 1000);
-    return () => clearInterval(interval);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
   }, [secondToGo, secondToDraw]);
 
   return (
