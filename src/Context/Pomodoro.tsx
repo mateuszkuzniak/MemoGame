@@ -16,8 +16,7 @@ import {
 export const PomodoroManager = createContext({} as PomodoroStore);
 
 export const PomodoroProvider: FC = ({ children }) => {
-  const { resetBoard, gameOver, quitGame, getRewardForAds } =
-    useContext(CardManager);
+  const { resetBoard, gameOver, quitGame } = useContext(CardManager);
   const [secondToDraw, setSecondToDraw] = useState(SecondToDrawConst);
   const [minutesToGo, setMinutesToGo] = useState(MinutesToGoConst);
   const [secondToGo, setSecondToGo] = useState(0);
@@ -31,29 +30,25 @@ export const PomodoroProvider: FC = ({ children }) => {
 
   const resetTimeToDraw = () => {
     if (timeToEnd()) {
-      getRewardForAds(() => setSecondToDraw(SecondToDrawConst));
+      setSecondToDraw(SecondToDrawConst);
     }
   };
 
   const addTime = () => {
     if (!gameOver) {
-      const add = () => {
-        const time = minutesToGo * 60 + secondToGo + SecondToDrawConst;
-        const maxTime = MaximumGameTime * 60;
-        if (time < maxTime) {
-          const sec = 60 - secondToGo;
-          if (sec > SecondToDrawConst) {
-            setSecondToGo((s) => s + SecondToDrawConst);
-          } else {
-            setMinutesToGo((m) => m + 1);
-            const time = 60 - secondToGo;
-            const sec = SecondToDrawConst - time;
-            setSecondToGo(sec);
-          }
+      const time = minutesToGo * 60 + secondToGo + SecondToDrawConst;
+      const maxTime = MaximumGameTime * 60;
+      if (time < maxTime) {
+        const sec = 60 - secondToGo;
+        if (sec > SecondToDrawConst) {
+          setSecondToGo((s) => s + SecondToDrawConst);
+        } else {
+          setMinutesToGo((m) => m + 1);
+          const time = 60 - secondToGo;
+          const sec = SecondToDrawConst - time;
+          setSecondToGo(sec);
         }
-      };
-
-      getRewardForAds(add);
+      }
     }
   };
 

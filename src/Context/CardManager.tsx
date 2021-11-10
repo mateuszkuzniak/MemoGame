@@ -91,19 +91,15 @@ export const CardManagerProvider: FC = ({ children }) => {
 
   const findMe = () => {
     if (currentRound.length === 1) {
-      const find = () => {
-        const findIndex = card.findIndex(
-          (card, i) =>
-            card.pictureId === currentRound[0].pictureId &&
-            currentRound[0].index !== i
-        );
-        updateCard(findIndex);
-        incrementFoundPairs();
-        incrementClicker();
-        setCurrentRound([]);
-      };
-
-      getRewardForAds(find);
+      const findIndex = card.findIndex(
+        (card, i) =>
+          card.pictureId === currentRound[0].pictureId &&
+          currentRound[0].index !== i
+      );
+      updateCard(findIndex);
+      incrementFoundPairs();
+      incrementClicker();
+      setCurrentRound([]);
     }
   };
 
@@ -127,7 +123,7 @@ export const CardManagerProvider: FC = ({ children }) => {
         }
       };
       showInterstitialAds();
-      btnAction();
+      // btnAction();
     }
   };
 
@@ -181,7 +177,6 @@ export const CardManagerProvider: FC = ({ children }) => {
         resetBoard,
         findMe,
         quitGame,
-        getRewardForAds,
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import React, { FC, useContext } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { StyleSheet, View, Pressable, Text } from "react-native";
 import { CardManager, PomodoroManager } from "../../Context";
 import {
@@ -12,11 +12,13 @@ import {
   constRow,
   textColor,
 } from "../../const";
+import { AdMobRewarded } from "expo-ads-admob";
 
 export const ButtonBasic: FC<ButtonBasicProp> = (btn) => {
   const { id, text, color, ico, action } = btn;
   const { addTime, resetTimeToDraw } = useContext(PomodoroManager);
-  const { findMe, gameOver, getRewardForAds } = useContext(CardManager);
+  const { findMe, gameOver } = useContext(CardManager);
+  const [activeBtn, setActiveBtn] = useState(false);
 
   let btnAction: () => void;
   if (id === buttonId.findMe) {
@@ -28,6 +30,50 @@ export const ButtonBasic: FC<ButtonBasicProp> = (btn) => {
   } else {
     btnAction = action;
   }
+
+  useEffect(() => {
+    if (activeBtn) {
+      console.log("jestem");
+      const initRewardAds = async () => {
+        try {
+          await AdMobRewarded.setAdUnitID(
+            "ca-app-pub-3940256099942544/5224354917"
+          );
+
+          AdMobRewarded.addEventListener("rewardedVideoDidLoad", () => {
+            console.log("Loaded");
+          });
+          AdMobRewarded.addEventListener("rewardedVideoDidFailToLoad", () =>
+            console.log("FailedToLoad")
+          );
+          AdMobRewarded.addEventListener(
+            "rewardedVideoUserDidEarnReward",
+            () => {
+              console.log("Rewarded");
+            }
+          );
+          AdMobRewarded.addEventListener("rewardedVideoDidPresent", () => {
+            console.log("Presented");
+          });
+          AdMobRewarded.addEventListener("rewardedVideoDidFailToPresent", () =>
+            console.log("FailedToPresent")
+          );
+          AdMobRewarded.addEventListener("rewardedVideoDidDismiss", () => {
+            console.log("Dismissed");
+            btnAction();
+          });
+        } catch {
+          (e: any) => console.log(e.message);
+        }
+      };
+      initRewardAds();
+      btnAction();
+      setActiveBtn(false);
+      return () => {
+        AdMobRewarded.removeAllListeners();
+      };
+    }
+  }, [activeBtn]);
 
   return (
     <View
@@ -42,7 +88,7 @@ export const ButtonBasic: FC<ButtonBasicProp> = (btn) => {
     >
       <Pressable
         onPress={() => {
-          gameOver ? {} : getRewardForAds(btnAction);
+          gameOver ? {} : setActiveBtn(true);
         }}
         style={constRow}
       >

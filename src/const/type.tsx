@@ -35,7 +35,6 @@ export type CardStore = {
   resetBoard: () => void;
   findMe: () => void;
   quitGame: () => void;
-  getRewardForAds: (btnAction: () => void) => void;
 };
 
 export type Round = {
