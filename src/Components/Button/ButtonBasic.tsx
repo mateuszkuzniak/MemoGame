@@ -12,7 +12,9 @@ import {
   constRow,
   textColor,
 } from "../../const";
-import { AdMobRewarded } from "expo-ads-admob";
+import { AdMobInterstitial, AdMobRewarded } from "expo-ads-admob";
+
+AdMobRewarded.setAdUnitID("ca-app-pub-3940256099942544/5224354917");
 
 export const ButtonBasic: FC<ButtonBasicProp> = (btn) => {
   const { id, text, color, ico, action } = btn;
@@ -32,48 +34,55 @@ export const ButtonBasic: FC<ButtonBasicProp> = (btn) => {
   }
 
   useEffect(() => {
-    if (activeBtn) {
-      console.log("jestem");
-      const initRewardAds = async () => {
-        try {
-          await AdMobRewarded.setAdUnitID(
-            "ca-app-pub-3940256099942544/5224354917"
-          );
+    AdMobRewarded.addEventListener("rewardedVideoUserDidEarnReward", () => {
+      setTimeout(() => {
+        console.log("jestem1");
+        btnAction();
+      }, 1000);
+    });
 
-          AdMobRewarded.addEventListener("rewardedVideoDidLoad", () => {
-            console.log("Loaded");
-          });
-          AdMobRewarded.addEventListener("rewardedVideoDidFailToLoad", () =>
-            console.log("FailedToLoad")
-          );
-          AdMobRewarded.addEventListener(
-            "rewardedVideoUserDidEarnReward",
-            () => {
-              console.log("Rewarded");
-            }
-          );
-          AdMobRewarded.addEventListener("rewardedVideoDidPresent", () => {
-            console.log("Presented");
-          });
-          AdMobRewarded.addEventListener("rewardedVideoDidFailToPresent", () =>
-            console.log("FailedToPresent")
-          );
-          AdMobRewarded.addEventListener("rewardedVideoDidDismiss", () => {
-            console.log("Dismissed");
-            btnAction();
-          });
-        } catch {
-          (e: any) => console.log(e.message);
-        }
-      };
-      initRewardAds();
-      btnAction();
-      setActiveBtn(false);
-      return () => {
-        AdMobRewarded.removeAllListeners();
-      };
-    }
+    return () => {
+      AdMobRewarded.removeAllListeners();
+    };
+  }, []);
+
+  useEffect(() => {
+    const initRewardAds = async () => {
+      try {
+        await AdMobRewarded.setAdUnitID(
+          "ca-app-pub-3940256099942544/5224354917"
+        );
+        AdMobRewarded.addEventListener("rewardedVideoUserDidEarnReward", () => {
+          btnAction();
+          setActiveBtn(false);
+        });
+        AdMobRewarded.addEventListener("rewardedVideoDidDismiss", () => {
+          setActiveBtn(false);
+        });
+      } catch {
+        (e: any) => console.log(e.message);
+      }
+    };
+
+    initRewardAds();
+    return () => {
+      AdMobRewarded.removeAllListeners();
+    };
   }, [activeBtn]);
+
+  const pressToGetReward = async () => {
+    try {
+      await AdMobRewarded.requestAdAsync();
+      await AdMobRewarded.showAdAsync();
+    } catch {
+      (e: any) => console.log(e.message);
+    }
+  };
+
+  const Test = () => {
+    setActiveBtn(true);
+    pressToGetReward();
+  };
 
   return (
     <View
@@ -86,12 +95,7 @@ export const ButtonBasic: FC<ButtonBasicProp> = (btn) => {
         constCenter,
       ]}
     >
-      <Pressable
-        onPress={() => {
-          gameOver ? {} : setActiveBtn(true);
-        }}
-        style={constRow}
-      >
+      <Pressable onPress={() => (gameOver ? {} : Test())} style={constRow}>
         <View style={[ico, constCenter]}>{ico && ico}</View>
         <View style={[textBox, constCenter]}>
           <Text style={[textColor]}>{text}</Text>
