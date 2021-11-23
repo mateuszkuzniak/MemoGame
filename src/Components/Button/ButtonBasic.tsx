@@ -19,7 +19,7 @@ AdMobRewarded.setAdUnitID("ca-app-pub-3940256099942544/5224354917");
 export const ButtonBasic: FC<ButtonBasicProp> = (btn) => {
   const { id, text, color, ico, action } = btn;
   const { addTime, resetTimeToDraw } = useContext(PomodoroManager);
-  const { findMe, gameOver } = useContext(CardManager);
+  const { findMe, gameOver, currentRound } = useContext(CardManager);
   const [activeBtn, setActiveBtn] = useState(false);
 
   let btnAction: () => void;
@@ -54,14 +54,12 @@ export const ButtonBasic: FC<ButtonBasicProp> = (btn) => {
         );
         AdMobRewarded.addEventListener("rewardedVideoUserDidEarnReward", () => {
           btnAction();
-          setActiveBtn(false);
         });
-        AdMobRewarded.addEventListener("rewardedVideoDidDismiss", () => {
-          setActiveBtn(false);
-        });
+        AdMobRewarded.addEventListener("rewardedVideoDidDismiss", () => {});
       } catch {
         (e: any) => console.log(e.message);
       }
+      setActiveBtn(false);
     };
 
     initRewardAds();
@@ -79,9 +77,15 @@ export const ButtonBasic: FC<ButtonBasicProp> = (btn) => {
     }
   };
 
-  const Test = () => {
-    setActiveBtn(true);
-    pressToGetReward();
+  const ButtonAction = () => {
+    if (
+      (currentRound.length === 1 && id === buttonId.findMe) ||
+      id === buttonId.resetDraw ||
+      id === buttonId.addTime
+    ) {
+      setActiveBtn(true);
+      pressToGetReward();
+    }
   };
 
   return (
@@ -95,7 +99,10 @@ export const ButtonBasic: FC<ButtonBasicProp> = (btn) => {
         constCenter,
       ]}
     >
-      <Pressable onPress={() => (gameOver ? {} : Test())} style={constRow}>
+      <Pressable
+        onPress={() => (gameOver ? {} : ButtonAction())}
+        style={constRow}
+      >
         <View style={[ico, constCenter]}>{ico && ico}</View>
         <View style={[textBox, constCenter]}>
           <Text style={[textColor]}>{text}</Text>

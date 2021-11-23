@@ -107,28 +107,6 @@ export const CardManagerProvider: FC = ({ children }) => {
     setGameOver(true);
   };
 
-  //#region
-
-  const getRewardForAds = (btnAction: () => void) => {
-    if (!gameOver) {
-      const showInterstitialAds = async () => {
-        try {
-          await AdMobRewarded.setAdUnitID(
-            "ca-app-pub-3940256099942544/5224354917"
-          ); // Test ID, Replace with your-admob-unit-id
-          await AdMobRewarded.requestAdAsync();
-          await AdMobRewarded.showAdAsync();
-        } catch {
-          (e: any) => console.log(e);
-        }
-      };
-      showInterstitialAds();
-      // btnAction();
-    }
-  };
-
-  //#endregion
-
   useEffect(() => {
     if (currentRound.length === 2) {
       //Dwie karty są takie same
@@ -173,6 +151,7 @@ export const CardManagerProvider: FC = ({ children }) => {
         clickerCounter,
         numberOfFoundPairs,
         gameOver,
+        currentRound,
         setFlipped,
         resetBoard,
         findMe,
